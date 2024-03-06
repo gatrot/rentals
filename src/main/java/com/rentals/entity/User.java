@@ -16,7 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.JoinColumn;
 
 @Entity
-@Table(name = "user_details")
+@Table(name = "users")
 public class User {
 	
 	@Id
@@ -64,7 +64,7 @@ public class User {
 	}
 	
 	@OneToMany(
-			mappedBy		= "user_details",
+			mappedBy		= "users",
 			cascade			= CascadeType.ALL,
 			fetch			= FetchType.LAZY,
 			orphanRemoval	= true)
