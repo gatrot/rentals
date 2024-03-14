@@ -4,6 +4,7 @@ import java.util.UUID;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Table;
@@ -16,25 +17,29 @@ import javax.persistence.ManyToMany;
 import javax.persistence.JoinColumn;
 
 @Entity
-@Table(name = "users")
+@Table(name = "USERS")
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "user_id")
 	private UUID id;
 	private String email;
 	private String username;
 	private String password;
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Advertisement> adsPublished;
+	@ManyToMany
+	@JoinTable(name = "user_favorites", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "ad_id"))
 	private List<Advertisement> adsFavorited;
-	
+
 	public User(String email, String username, String password) {
 		super();
 		this.email = email;
 		this.username = username;
 		this.password = password;
 	}
-	
+
 	public UUID getId() {
 		return id;
 	}
@@ -62,25 +67,18 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	@OneToMany(
-			mappedBy		= "users",
-			cascade			= CascadeType.ALL,
-			fetch			= FetchType.LAZY,
-			orphanRemoval	= true)
+
+	//Ads
+
 	public List<Advertisement> getAdsPublished() {
 		return adsPublished;
 	}
-
+	
 	public void setAdsPublished(List<Advertisement> adsPublished) {
 		this.adsPublished = adsPublished;
 	}
 
-	@ManyToMany
-	@JoinTable(
-			  name 				= "favorited_ads", 
-			  joinColumns 		= @JoinColumn(name = "user_id"), 
-			  inverseJoinColumns= @JoinColumn(name = "ad_id"))
+
 	public List<Advertisement> getAdsFavorited() {
 		return adsFavorited;
 	}
