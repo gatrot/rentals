@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,7 +15,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.rentals.object.AccommodationType;
 import com.rentals.object.Address;
@@ -29,7 +32,8 @@ public class Advertisement {
 	private UUID id;
 	@Column(name = "date_added")
 	private Date dateAdded;
-	private Address address;
+	@Transient
+	private Address address; //change to entity with 1-1 relationship
 	private int rooms;
 	private String description;
 	private int price;
@@ -45,7 +49,8 @@ public class Advertisement {
 	@Column(name = "user_name")
 	private String userName;
 	private String phone;
-	private List<String> images;
+	@OneToMany(mappedBy = "adId", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	private List<Image> images;
 	private Boolean garage;
 	private Boolean parking;
 	private Boolean elevator;
@@ -56,7 +61,7 @@ public class Advertisement {
 	
 	public Advertisement(UUID id, Date dateAdded, Address address, int rooms, String description, int price, int floor,
 			int space, AccommodationType accType, Date availability, User userId, String userName, String phone,
-			List<String> images, Boolean garage, Boolean parking, Boolean elevator, Boolean balcony, Boolean furnished,
+			List<Image> images, Boolean garage, Boolean parking, Boolean elevator, Boolean balcony, Boolean furnished,
 			Boolean pets, Date renewal) {
 		super();
 		this.id = id;
@@ -186,11 +191,11 @@ public class Advertisement {
 		this.phone = phone;
 	}
 
-	public List<String> getImages() {
+	public List<Image> getImages() {
 		return images;
 	}
 
-	public void setImages(List<String> images) {
+	public void setImages(List<Image> images) {
 		this.images = images;
 	}
 
