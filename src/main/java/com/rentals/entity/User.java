@@ -27,11 +27,12 @@ public class User {
 	private String email;
 	private String username;
 	private String password;
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	@Column(name = "ads_published")
+	@OneToMany(mappedBy = "user_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Advertisement> adsPublished;
 	@ManyToMany
-	@JoinTable(name = "user_favorites", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "ad_id"))
-	private List<Advertisement> adsFavorited;
+	@JoinTable(name = "favorites", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "ad_id"))
+	private List<Advertisement> favorites;
 
 	public User(String email, String username, String password) {
 		super();
@@ -80,10 +81,10 @@ public class User {
 
 
 	public List<Advertisement> getAdsFavorited() {
-		return adsFavorited;
+		return favorites;
 	}
 
 	public void setAdsFavorited(List<Advertisement> adsFavorited) {
-		this.adsFavorited = adsFavorited;
+		this.favorites = adsFavorited;
 	}
 }
