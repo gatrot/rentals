@@ -2,7 +2,9 @@ package com.rentals.entity;
 
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
@@ -11,22 +13,25 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ADDRESSES")
 public class Address {
+	@Id
+	@Column(name = "ad_id")
+	private UUID adId;
+	@MapsId //copy ad id
+	@OneToOne
+	@JoinColumn(name = "ad_id")
+	private Advertisement ad;
 	private String country;
 	private String city;
 	private String street;
 	private String streetNum;
-	@OneToOne
-	@MapsId //copy ad id
-	@JoinColumn(name = "ad_id")
-	private UUID adId; //ad's primary key (the ad id) is a foreign primary key in addresses table
 	
-	public Address(String country, String city, String street, String streetNum, UUID adId) {
+	public Address(String country, String city, String street, String streetNum, Advertisement adId) {
 		super();
 		this.country = country;
 		this.city = city;
 		this.street = street;
 		this.streetNum = streetNum;
-		this.adId = adId;
+		this.ad = adId;
 	}
 
 	public String getCountry() {
@@ -61,12 +66,12 @@ public class Address {
 		this.streetNum = streetNum;
 	}
 
-	public UUID getAdId() {
-		return adId;
+	public Advertisement getAdId() {
+		return ad;
 	}
 
-	public void setAdId(UUID adId) {
-		this.adId = adId;
+	public void setAdId(Advertisement adId) {
+		this.ad = adId;
 	}
 	
 }

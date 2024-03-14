@@ -32,7 +32,7 @@ public class Advertisement {
 	private UUID id;
 	@Column(name = "date_added")
 	private Date dateAdded;
-	@OneToOne(mappedBy = "adId", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToOne(mappedBy = "ad", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@PrimaryKeyJoinColumn
 	private Address address; //ad id is the foreign primary key in addresses table
 	private int rooms;
@@ -46,7 +46,7 @@ public class Advertisement {
 	private Date availability;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
-	private UUID userId;
+	private User userId;
 	@Column(name = "user_name")
 	private String userName;
 	private String phone;
@@ -61,7 +61,7 @@ public class Advertisement {
 	private Date renewal;
 	
 	public Advertisement(UUID id, Date dateAdded, Address address, int rooms, String description, int price, int floor,
-			int space, AccommodationType accType, Date availability, UUID userId, String userName, String phone,
+			int space, AccommodationType accType, Date availability, User userId, String userName, String phone,
 			List<Image> images, Boolean garage, Boolean parking, Boolean elevator, Boolean balcony, Boolean furnished,
 			Boolean pets, Date renewal) {
 		super();
@@ -168,11 +168,11 @@ public class Advertisement {
 		this.availability = availability;
 	}
 
-	public UUID getUserId() {
+	public User getUserId() {
 		return userId;
 	}
 
-	public void setUserId(UUID userId) {
+	public void setUserId(User userId) {
 		this.userId = userId;
 	}
 
