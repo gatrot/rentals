@@ -16,11 +16,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.rentals.object.AccommodationType;
-import com.rentals.object.Address;
 
 @Entity
 @Table(name = "ADS")
@@ -32,8 +32,9 @@ public class Advertisement {
 	private UUID id;
 	@Column(name = "date_added")
 	private Date dateAdded;
-	@Transient
-	private Address address; //change to entity with 1-1 relationship
+	@OneToOne(mappedBy = "adId", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@PrimaryKeyJoinColumn
+	private Address address; //ad id is the foreign primary key in addresses table
 	private int rooms;
 	private String description;
 	private int price;
