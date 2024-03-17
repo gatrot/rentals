@@ -1,5 +1,6 @@
 package com.rentals.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,15 +32,22 @@ public class User {
 	@Column(name = "ads_published")
 	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Advertisement> adsPublished;
-	@ManyToMany
-	@JoinTable(name = "favorites", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "ad_id"))
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "user_favorites", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "ad_id"))
 	private List<Advertisement> favorites;
+	
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public User(String email, String username, String password) {
 		super();
 		this.email = email;
 		this.username = username;
 		this.password = password;
+		this.adsPublished = new ArrayList<Advertisement>() ;
+		this.favorites = new ArrayList<Advertisement>() ;
 	}
 
 	public UUID getId() {

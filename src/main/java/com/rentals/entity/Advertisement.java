@@ -48,8 +48,10 @@ public class Advertisement {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User userId;
+	
 	@ManyToMany(mappedBy = "favorites", fetch = FetchType.LAZY)
 	private List<User> favoritedBy;
+	
 	@Column(name = "user_name")
 	private String userName;
 	private String phone;
@@ -63,14 +65,16 @@ public class Advertisement {
 	private Boolean pets;
 	private Date renewal;
 	
-	public Advertisement(UUID id, Date dateAdded, Address address, int rooms, String description, int price, int floor,
-			int space, AccommodationType accType, Date availability, User userId, String userName, String phone,
+	public Advertisement() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Advertisement(Date dateAdded, int rooms, String description, int price, int floor,
+			int space, AccommodationType accType, Date availability, String userName, String phone,
 			List<Image> images, Boolean garage, Boolean parking, Boolean elevator, Boolean balcony, Boolean furnished,
-			Boolean pets, Date renewal, List<User> favoritedBy) {
+			Boolean pets, Date renewal) {
 		super();
-		this.id = id;
 		this.dateAdded = dateAdded;
-		this.address = address;
 		this.rooms = rooms;
 		this.description = description;
 		this.price = price;
@@ -78,7 +82,6 @@ public class Advertisement {
 		this.space = space;
 		this.accType = accType;
 		this.availability = availability;
-		this.userId = userId;
 		this.userName = userName;
 		this.phone = phone;
 		this.images = images;
@@ -89,7 +92,6 @@ public class Advertisement {
 		this.furnished = furnished;
 		this.pets = pets;
 		this.renewal = renewal;
-		this.favoritedBy = favoritedBy;
 	}
 
 	public UUID getId() {

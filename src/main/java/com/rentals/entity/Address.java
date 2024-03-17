@@ -25,13 +25,16 @@ public class Address {
 	private String street;
 	private String streetNum;
 	
-	public Address(String country, String city, String street, String streetNum, Advertisement adId) {
+	public Address() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Address(String country, String city, String street, String streetNum) {
 		super();
 		this.country = country;
 		this.city = city;
 		this.street = street;
 		this.streetNum = streetNum;
-		this.ad = adId;
 	}
 
 	public String getCountry() {
