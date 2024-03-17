@@ -29,10 +29,8 @@ public class User {
 	private String username;
 	private String password;
 	@Column(name = "ads_published")
-	
 	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Advertisement> adsPublished;
-	
 	@ManyToMany
 	@JoinTable(name = "favorites", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "ad_id"))
 	private List<Advertisement> favorites;

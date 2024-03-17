@@ -45,14 +45,11 @@ public class Advertisement {
 	@Column(name = "acc_type")
 	private AccommodationType accType;
 	private Date availability;
-	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User userId;
-	
 	@ManyToMany(mappedBy = "favorites", fetch = FetchType.LAZY)
 	private List<User> favoritedBy;
-	
 	@Column(name = "user_name")
 	private String userName;
 	private String phone;
