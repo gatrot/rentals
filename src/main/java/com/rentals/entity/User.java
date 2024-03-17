@@ -1,20 +1,20 @@
 package com.rentals.entity;
 
-import java.util.UUID;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToMany;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "USERS")
@@ -29,8 +29,10 @@ public class User {
 	private String username;
 	private String password;
 	@Column(name = "ads_published")
+	
 	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Advertisement> adsPublished;
+	
 	@ManyToMany
 	@JoinTable(name = "favorites", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "ad_id"))
 	private List<Advertisement> favorites;

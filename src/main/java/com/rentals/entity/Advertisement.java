@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -44,9 +45,14 @@ public class Advertisement {
 	@Column(name = "acc_type")
 	private AccommodationType accType;
 	private Date availability;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User userId;
+	
+	@ManyToMany(mappedBy = "favorites", fetch = FetchType.LAZY)
+	private List<User> favoritedBy;
+	
 	@Column(name = "user_name")
 	private String userName;
 	private String phone;
@@ -63,7 +69,7 @@ public class Advertisement {
 	public Advertisement(UUID id, Date dateAdded, Address address, int rooms, String description, int price, int floor,
 			int space, AccommodationType accType, Date availability, User userId, String userName, String phone,
 			List<Image> images, Boolean garage, Boolean parking, Boolean elevator, Boolean balcony, Boolean furnished,
-			Boolean pets, Date renewal) {
+			Boolean pets, Date renewal, List<User> favoritedBy) {
 		super();
 		this.id = id;
 		this.dateAdded = dateAdded;
@@ -86,6 +92,7 @@ public class Advertisement {
 		this.furnished = furnished;
 		this.pets = pets;
 		this.renewal = renewal;
+		this.favoritedBy = favoritedBy;
 	}
 
 	public UUID getId() {
@@ -254,6 +261,14 @@ public class Advertisement {
 
 	public void setRenewal(Date renewal) {
 		this.renewal = renewal;
+	}
+
+	public List<User> getFavoritedBy() {
+		return favoritedBy;
+	}
+
+	public void setFavoritedBy(List<User> favoritedBy) {
+		this.favoritedBy = favoritedBy;
 	}
 
 	
