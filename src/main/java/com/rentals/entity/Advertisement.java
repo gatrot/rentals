@@ -36,11 +36,11 @@ public class Advertisement {
 	@OneToOne(mappedBy = "ad", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	@PrimaryKeyJoinColumn
 	private Address address; //ad id is the foreign primary key in addresses table
-	private int rooms;
+	private Integer rooms;
 	private String description;
-	private int price;
-	private int floor;
-	private int space;
+	private Integer price;
+	private Integer floor;
+	private Integer space;
 	@Enumerated(EnumType.STRING)
 	@Column(name = "acc_type")
 	private AccommodationType accType;
