@@ -27,6 +27,7 @@ public class User {
 	private UUID id;
 	@Column(unique=true)
 	private String email; 
+	private Boolean emailConfirmed;
 	private String username;
 	private String password;
 	@Column(name = "ads_published")
@@ -46,8 +47,17 @@ public class User {
 		this.email = email;
 		this.username = username;
 		this.password = password;
+		this.emailConfirmed = false;
 		this.adsPublished = new ArrayList<Advertisement>() ;
 		this.favorites = new ArrayList<Advertisement>() ;
+	}
+	
+	public Boolean getEmailConfirmed() {
+		return emailConfirmed;
+	}
+	
+	public void setEmailConfirmed() {
+		this.emailConfirmed = true;
 	}
 
 	public UUID getId() {
