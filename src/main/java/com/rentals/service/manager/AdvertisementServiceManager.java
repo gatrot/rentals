@@ -16,6 +16,6 @@ public class AdvertisementServiceManager {
 	private AdvertisementService advertisementService;
 
 	public Page<Advertisement> searchAdsByCriteria(List<FilterDTO> filterDTOList, int page, int size) {
-		return null;
+		return advertisementService.searchAdsByCriteria(filterDTOList, page, size);
 	}
 }
