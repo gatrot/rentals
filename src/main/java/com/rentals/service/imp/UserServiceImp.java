@@ -1,8 +1,11 @@
 package com.rentals.service.imp;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional
 
 import com.rentals.entity.User;
 import com.rentals.repository.UserRepository;
@@ -18,11 +21,18 @@ public class UserServiceImp implements UserService {
 	private UserRepository repo;
 
 	@Override
+	@Transactional(readOnly = false)
 	public Boolean createUser(User user) {
+
 		Boolean res = false;
 
 		try {
+			User checkIfExists = findUserByEmail(user.getEmail());
+			if (checkIfExists && !checkIfExists.getEmailConfirmed()) {
+				throw new Exception("Create new user error: user already exists.");
+			}
 			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+			user = repo.save(user);
 			res = true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -31,4 +41,23 @@ public class UserServiceImp implements UserService {
 		return res;
 	}
 
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+	public User findUserByEmail(String email) {
+		return repo.getUserByEmail(email);
+	}
+
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+	public User getUserById(UUID userId) {
+		return repo.getUserById(userId);
+	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public User confirmRegistration(User user) {
+		user.setEmailConfirmed();
+		repo.save(user);
+		return user;
+	}
 }
