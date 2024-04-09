@@ -51,6 +51,8 @@ public class RentalsApplication implements CommandLineRunner{
 		 */
 		
 		//Init user
+		userRepo.deleteAll();
+		adRepo.deleteAll();
 		User userA = new User("orenh@gmail.com", "orenhoffman", "qweqwasdc1234") ;
 
 		//Init AdsPublished
