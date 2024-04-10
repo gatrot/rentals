@@ -17,7 +17,7 @@ import com.rentals.repository.UserRepository;
 import com.rentals.service.UserService;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImp implements UserDetailsService {
 
 	@Autowired
 	private UserService userService;
