@@ -23,12 +23,6 @@ public class UserServiceImp implements UserService {
 	@Autowired
 	private UserRepository repo;
 
-	@Autowired
-	private UserDetailsService userDetailsService;
-
-	@Autowired
-	private AuthenticationManager authenticationManager;
-
 	@Override
 	@Transactional(readOnly = false)
 	public Boolean createUser(User user) {
