@@ -12,17 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rentals.entity.Advertisement;
 import com.rentals.object.FilterDTO;
-import com.rentals.service.manager.AdvertisementServiceManager;
+import com.rentals.service.manager.RentalManager;
 
 @RestController
 public class AdvertisementController {
 
 	@Autowired
-	private AdvertisementServiceManager advertisementManager;
+	private RentalManager advertisementManager;
 
-	@PostMapping("/advertisements")
+	@PostMapping("public/advertisements")
 	  public ResponseEntity<Page<Advertisement>> searchAdsByCriteria(@RequestBody List<FilterDTO> filterDTOList, @RequestParam int page, @RequestParam int size)
 	  {
 	    return ResponseEntity.ok().body(advertisementManager.searchAdsByCriteria(filterDTOList, page, size));
 	  }
+	
 }
