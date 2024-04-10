@@ -13,7 +13,7 @@ import com.rentals.entity.Advertisement;
 import com.rentals.object.FilterDTO;
 import com.rentals.repository.AdvertisementRepository;
 import com.rentals.service.AdvertisementService;
-import com.rentals.util.AdvertisementSpecificationUtil;
+import com.rentals.util.FilterCriteriaForAdsUtil;
 
 @Service
 public class AdvertisementServiceImp implements AdvertisementService {
@@ -32,7 +32,7 @@ public class AdvertisementServiceImp implements AdvertisementService {
 
 		Pageable pageable = PageRequest.of(page - 1, size, Sort.by("dateAdded").descending());
 
-		return repo.findAll(AdvertisementSpecificationUtil.columnEqual(filterDTOList), pageable);
+		return repo.findAll(FilterCriteriaForAdsUtil.columnEqual(filterDTOList), pageable);
 	}
 
 }

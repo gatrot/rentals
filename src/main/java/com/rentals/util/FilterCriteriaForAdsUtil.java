@@ -13,7 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import com.rentals.entity.Advertisement;
 import com.rentals.object.FilterDTO;
 
-public class AdvertisementSpecificationUtil {
+public class FilterCriteriaForAdsUtil {
 
 	public static Specification<Advertisement> columnEqual(List<FilterDTO> filterDTOList) {
 
