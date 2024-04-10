@@ -46,16 +46,14 @@ public class ValidatorServiceImp implements Validator {
 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "not.empty");
 
-		if (!RentalsUtil.emailValidator(details.getEmail())) {
-			errors.rejectValue("username", "email.not.valid");
-
+		if (!details.getUsername().isEmpty() && details.getUsername().length() < 2
+				|| details.getUsername().length() > 32) {
+			errors.rejectValue("username", "size.username");
 		}
 
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "not.empty");
+		if (!RentalsUtil.emailValidator(details.getEmail())) {
+			errors.rejectValue("email", "email.not.valid");
 
-		if (!details.getUsername().isEmpty() && details.getUsername().length() < 3
-				|| details.getUsername().length() > 30) {
-			errors.rejectValue("username", "size.username");
 		}
 
 		if (userService.findUserByEmail(details.getEmail()) != null) {
@@ -65,7 +63,7 @@ public class ValidatorServiceImp implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "not.empty");
 
 		if (!details.getPassword().isEmpty() && details.getPassword().length() < 6
-				|| details.getPassword().length() > 30) {
+				|| details.getPassword().length() > 32) {
 			errors.rejectValue("password", "size.password");
 		}
 
