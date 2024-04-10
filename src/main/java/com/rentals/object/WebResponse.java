@@ -1,18 +1,20 @@
 package com.rentals.object;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 
 public class WebResponse {
 	private Boolean success;
 	private HttpStatus status;
-	private ResponseBodyBase responseBody;
+	private List<? extends ResponseBodyBase> responseBody;
 	private String message;
 
 	public WebResponse() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public WebResponse(Boolean success, HttpStatus status, ResponseBodyBase responseBody) {
+	public WebResponse(Boolean success, HttpStatus status, List<? extends ResponseBodyBase> responseBody) {
 		super();
 		this.success = success;
 		this.status = status;
@@ -26,7 +28,7 @@ public class WebResponse {
 		this.message = message;
 	}
 
-	public WebResponse(Boolean success, HttpStatus status, ResponseBodyBase responseBody, String message) {
+	public WebResponse(Boolean success, HttpStatus status, List<? extends ResponseBodyBase> responseBody, String message) {
 		super();
 		this.success = success;
 		this.status = status;
@@ -50,11 +52,11 @@ public class WebResponse {
 		this.status = status;
 	}
 
-	public ResponseBodyBase getResponseBody() {
+	public List<? extends ResponseBodyBase> getResponseBody() {
 		return responseBody;
 	}
 
-	public void setResponseBody(ResponseBodyBase responseBody) {
+	public void setResponseBody(List<? extends ResponseBodyBase> responseBody) {
 		this.responseBody = responseBody;
 	}
 

@@ -1,12 +1,16 @@
 package com.rentals.service.imp;
 
+import java.util.List;
 import java.util.UUID;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.authentication.AuthenticationManager;
 
 import com.rentals.entity.User;
 import com.rentals.repository.UserRepository;
@@ -20,6 +24,12 @@ public class UserServiceImp implements UserService {
 
 	@Autowired
 	private UserRepository repo;
+	
+	@Autowired
+	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
 	@Override
 	@Transactional(readOnly = false)

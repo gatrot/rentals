@@ -1,8 +1,7 @@
 package com.rentals.service;
 
+import java.util.List;
 import java.util.UUID;
-
-import org.springframework.data.repository.query.Param;
 
 import com.rentals.entity.User;
 
@@ -15,4 +14,6 @@ public interface UserService {
 	User getUserById(UUID userId);
 	
 	User confirmRegistration(User user);
+	
+	List<User> getAllUsers();
 }

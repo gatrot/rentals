@@ -21,7 +21,7 @@ import com.rentals.util.RentalsUtil;
  *
  */
 @Service
-public class RegistrationValidatorServiceImp implements Validator {
+public class ValidatorServiceImp implements Validator {
 
 	/**
 	 * Spring Dependency Injection
@@ -49,7 +49,7 @@ public class RegistrationValidatorServiceImp implements Validator {
 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "not.empty");
 
-		if (!RentalsUtil.emailValidator(details.getUsername())) {
+		if (!RentalsUtil.emailValidator(details.getEmail())) {
 			errors.rejectValue("username", "email.not.valid");
 
 		}
@@ -62,7 +62,7 @@ public class RegistrationValidatorServiceImp implements Validator {
 		}
 
 		if (userService.findUserByEmail(details.getEmail()) != null) {
-			errors.rejectValue("email", "duplicate.user");
+			errors.rejectValue("email", "duplicate.email");
 		}
 
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "not.empty");
@@ -84,7 +84,7 @@ public class RegistrationValidatorServiceImp implements Validator {
 	 */
 	public String getError(BindingResult bindingResult) {
 		String error = null;
-		if (bindingResult.getAllErrors().isEmpty()) {
+		if (!bindingResult.getAllErrors().isEmpty()) {
 			ObjectError fieldError = bindingResult.getAllErrors().get(0);
 			error = messageSourceAccessor.getMessage(fieldError);
 		}
