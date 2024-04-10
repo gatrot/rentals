@@ -2,24 +2,31 @@ package com.rentals.service.manager;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import com.rentals.entity.Advertisement;
 import com.rentals.entity.User;
+import com.rentals.object.EmailType;
+import com.rentals.object.FilterDTO;
 import com.rentals.object.ResetPasswordRequest;
 import com.rentals.object.UserDetailsDTO;
 import com.rentals.object.WebResponse;
+import com.rentals.service.AdvertisementService;
 import com.rentals.service.SecurityService;
 import com.rentals.service.UserService;
+import com.rentals.service.imp.AccessTokenServiceImp;
+import com.rentals.service.imp.EmailServiceImpl;
 import com.rentals.service.imp.ValidatorServiceImp;
 
 @Service
-public class RentalAuthManager {
+public class RentalsManager {
 
 	@Autowired
 	private ValidatorServiceImp regValidatorService;
@@ -30,7 +37,21 @@ public class RentalAuthManager {
 	@Autowired
 	private SecurityService securityService;
 
-	public WebResponse registration(UserDetailsDTO userDetailsDTO, BindingResult bindingResult) {
+	@Autowired
+	private AdvertisementService advertisementService;
+
+	@Autowired
+	private AccessTokenServiceImp accessTokenServiceImp;
+
+	@Autowired
+	private EmailServiceImpl emailServiceImp;
+
+	public Page<Advertisement> searchAdsByCriteria(List<FilterDTO> filterDTOList, int page, int size) {
+		return advertisementService.searchAdsByCriteria(filterDTOList, page, size);
+	}
+
+	public WebResponse registration(UserDetailsDTO userDetailsDTO, BindingResult bindingResult,
+			HttpServletRequest req) {
 		regValidatorService.validate(userDetailsDTO, bindingResult);
 		if (bindingResult.hasErrors()) {
 			String error = regValidatorService.getError(bindingResult);
@@ -43,10 +64,15 @@ public class RentalAuthManager {
 			return new WebResponse(false, HttpStatus.INTERNAL_SERVER_ERROR, "Failed to create user");
 		}
 
+		if (!emailServiceImp.sendEmailTemplate(user.getEmail(), req, EmailType.CONFIRMATION_EMAIL)) {
+			userService.deleteUser(user);
+			return new WebResponse(false, HttpStatus.INTERNAL_SERVER_ERROR,
+					"Failed to send confirmation email, rolling back transaction.");
+		}
+
 		userDetailsDTO.setUserId(user.getId());
 		login(userDetailsDTO);
 		userDetailsDTO.setPassword(null);
-		// Send Confirmation Email here
 		return new WebResponse(true, HttpStatus.CREATED, Arrays.asList(userDetailsDTO));
 	}
 
@@ -64,6 +90,20 @@ public class RentalAuthManager {
 	public WebResponse resetPassword(ResetPasswordRequest resetPasswordRequest) {
 		return null;
 
+	}
+
+	public WebResponse confirmEmail(String token) {
+		String email = accessTokenServiceImp.getUserEmailByToken(token);
+		if (email != null) {
+			User user = userService.findUserByEmail(email);
+			if (user != null) {
+				user.setEmailConfirmed(true);
+				if (userService.updateUser(user)) {
+					return new WebResponse(true, HttpStatus.PERMANENT_REDIRECT, "index.html");
+				}
+			}
+		}
+		return new WebResponse(false, HttpStatus.UNAUTHORIZED, "Incorrect token. Registry wasn't finished.");
 	}
 
 //	public WebResponse test(Authentication authentication) {

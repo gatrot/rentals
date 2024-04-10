@@ -12,5 +12,7 @@ public interface UserService {
 
 	User getUserById(UUID userId);
 
-	User confirmRegistration(User user);
+	Boolean updateUser(User user);
+
+	void deleteUser(User user);
 }

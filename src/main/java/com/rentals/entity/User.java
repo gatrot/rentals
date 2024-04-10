@@ -56,8 +56,8 @@ public class User {
 		return emailConfirmed;
 	}
 
-	public void setEmailConfirmed() {
-		this.emailConfirmed = true;
+	public void setEmailConfirmed(Boolean emailConfirmed) {
+		this.emailConfirmed = emailConfirmed;
 	}
 
 	public UUID getId() {

@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				// Permit all HTTP requests that contain the word /global/ or trying to get a
 				// static resource (besides user_profile.html)
-				.antMatchers("/resources/**", "/index.html", "/public/**", "/").permitAll()
+				.antMatchers("/resources/**", "/index.html", "/reset_password.html", "/public/**", "/").permitAll()
 				// Authenticate every HTTP request that trying to get to a authenticated-resorce
 				.antMatchers("/user_profile.html", "/private/**").authenticated()
 				// Any request besides the above configuration : authenticate

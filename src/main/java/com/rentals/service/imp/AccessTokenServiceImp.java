@@ -11,36 +11,23 @@ import org.apache.log4j.Logger;
 
 @Component
 public class AccessTokenServiceImp {
-	private static final Logger log = Logger.getLogger(AccessTokenServiceImp.class.getSimpleName());
-
 	// Access-Token registry
-	Map<String, String> tokenRegister;
+	Map<String, String> tokenRegistery;
 
 	public AccessTokenServiceImp() {
-		tokenRegister = new ConcurrentHashMap<String, String>();
+		tokenRegistery = new ConcurrentHashMap<String, String>();
 	}
 
-	/**
-	 * Method will validate if user have the same Access-Token that was send to them
-	 * by email
-	 */
-	public boolean isEligible(User user, String token) {
+	public void addAccessToken(String token, String sendConformationMailTo) {
 		try {
-			String tokenInMap = tokenRegister.get(user.getUsername());
-			return token.equals(tokenInMap);
-		} catch (Exception e) {
-			log.error("Fiald to resolve Access-Token from reporitory, Data that was passed to Cotroller: Username: "
-					+ user.getUsername() + ", Access-Token: " + token);
-		}
-		return false;
-	}
-
-	public void addAccessToken(String sendConformationMailTo, String token) {
-		try {
-			tokenRegister.put(sendConformationMailTo, token);
+			tokenRegistery.put(token, sendConformationMailTo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public String getUserEmailByToken(String token) {
+		return tokenRegistery.get(token);
 	}
 
 }

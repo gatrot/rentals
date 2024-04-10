@@ -72,4 +72,8 @@ public class WebResponse {
 		this.message = description;
 	}
 
+	public String getRedirectURL() {
+		return message;
+	}
+
 }

@@ -1,28 +1,32 @@
 package com.rentals.rest;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.rentals.object.ResetPasswordRequest;
 import com.rentals.object.UserDetailsDTO;
 import com.rentals.object.WebResponse;
-import com.rentals.service.manager.RentalAuthManager;
+import com.rentals.service.manager.RentalsManager;
 
 @RestController()
 public class UserController {
 
 	@Autowired
-	private RentalAuthManager authManager;
+	private RentalsManager authManager;
 
 	@PostMapping("public/registration")
 	public ResponseEntity<WebResponse> registration(@RequestBody(required = true) UserDetailsDTO userDetailsDTO,
-			BindingResult bindingResult) {
-		WebResponse response = authManager.registration(userDetailsDTO, bindingResult);
+			BindingResult bindingResult, HttpServletRequest req) {
+		WebResponse response = authManager.registration(userDetailsDTO, bindingResult, req);
 		return ResponseEntity.ok().body(response);
 	}
 
@@ -30,7 +34,10 @@ public class UserController {
 	public ResponseEntity<WebResponse> login(@RequestBody UserDetailsDTO userDetailsDTO) {
 		WebResponse response = authManager.login(userDetailsDTO);
 		return ResponseEntity.ok().body(response);
+
 	}
+	
+	// logout is provided automatically by spring security
 
 	@PostMapping("public/reset-password")
 	public ResponseEntity<WebResponse> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
@@ -38,5 +45,9 @@ public class UserController {
 		return ResponseEntity.ok().body(response);
 	}
 
-	// logout is provided automatically by spring security
+	@GetMapping("public/confirmation-email")
+	public ModelAndView confirmUserByEmail(@RequestParam String token) {
+		WebResponse response = authManager.confirmEmail(token);
+		return new ModelAndView("redirect:/"+response.getRedirectURL() +"?email=confirmed");
+	}
 }

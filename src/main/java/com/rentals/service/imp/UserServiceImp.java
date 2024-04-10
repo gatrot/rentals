@@ -39,6 +39,26 @@ public class UserServiceImp implements UserService {
 	}
 
 	@Override
+	@Transactional(readOnly = false)
+	public Boolean updateUser(User user) {
+		Boolean res = false;
+		try {
+			user = repo.save(user);
+			res = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return res;
+	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void deleteUser(User user) {
+		repo.delete(user);
+	}
+
+	@Override
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	public User findUserByEmail(String email) {
 		return repo.getUserByEmail(email);
@@ -48,13 +68,5 @@ public class UserServiceImp implements UserService {
 	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 	public User getUserById(UUID userId) {
 		return repo.getUserById(userId);
-	}
-
-	@Override
-	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public User confirmRegistration(User user) {
-		user.setEmailConfirmed();
-		repo.save(user);
-		return user;
 	}
 }
