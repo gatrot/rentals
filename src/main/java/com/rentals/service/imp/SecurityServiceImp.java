@@ -19,7 +19,7 @@ import com.rentals.service.SecurityService;
 import com.rentals.service.UserService;
 
 @Component
-public class SecurityServiceImpl implements SecurityService {
+public class SecurityServiceImp implements SecurityService {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -27,7 +27,7 @@ public class SecurityServiceImpl implements SecurityService {
 	@Autowired
 	private UserService userService;
 
-	private static final Logger logger = LogManager.getLogger(SecurityServiceImpl.class);
+	private static final Logger logger = LogManager.getLogger(SecurityServiceImp.class);
 
 	@Override
 	public String findLoggedInUsername() {
