@@ -2,10 +2,14 @@ package com.rentals.object;
 
 import java.util.List;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 import org.springframework.http.HttpStatus;
 
 public class WebResponse {
 	private Boolean success;
+	@Enumerated(EnumType.ORDINAL)
 	private HttpStatus status;
 	private List<? extends ResponseBodyBase> responseBody;
 	private String message;
