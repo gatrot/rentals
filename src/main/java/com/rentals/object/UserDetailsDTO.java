@@ -9,7 +9,6 @@ public class UserDetailsDTO extends ResponseBodyBase {
 	private UUID userId;
 
 	public UserDetailsDTO() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public UserDetailsDTO(String email, String username, String password) {

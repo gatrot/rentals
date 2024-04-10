@@ -18,27 +18,17 @@ import com.rentals.entity.User;
 import com.rentals.service.SecurityService;
 import com.rentals.service.UserService;
 
-
 @Component
 public class SecurityServiceImpl implements SecurityService {
 
-	/*
-	 * Spring dependency injection
-	 */
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
+
 	@Autowired
-	private UserService userService ;
-
-
+	private UserService userService;
 
 	private static final Logger logger = LogManager.getLogger(SecurityServiceImpl.class);
 
-	/**
-	 * This method is custom implementation of the spring security get admin portal
-	 * user
-	 */
 	@Override
 	public String findLoggedInUsername() {
 		Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
@@ -48,30 +38,28 @@ public class SecurityServiceImpl implements SecurityService {
 		return null;
 	}
 
-	/**
-	 * This method is custom implementation of the spring security login method
-	 */
 	@Override
 	public User login(String email, String password) {
 		try {
-			UserDetails userDetails = 
-					new org.springframework.security.core.userdetails.User(email, password, new HashSet<GrantedAuthority>());
-			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+			UserDetails userDetails = new org.springframework.security.core.userdetails.User(email, password,
+					new HashSet<GrantedAuthority>());
+			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+					userDetails, password, userDetails.getAuthorities());
 
 			authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
 			if (usernamePasswordAuthenticationToken.isAuthenticated()) {
 				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-				logger.info("A new successful Login to Admin Portal, Credentials that was given : User Name: " + email + ", Password: " + password);
-				return userService.findUserByEmail(email) ;
+				logger.info("Successful login. email: " + email + " | password: " + password);
+				return userService.findUserByEmail(email);
 			}
-			logger.error("User details are incorrect ,Credentials that was given : User Name:" + email + ", Password: " + password);
+			logger.error("Credentials incorrect. email:" + email + " | password: " + password);
 		} catch (BadCredentialsException bc) {
-			logger.error("Access to Admin Portal was denied due to Bad Credentials, Credentials that was given : User Name: " + email + ", Password: " + password);
+			logger.error("Credentials incorrect. email:" + email + " | password: " + password);
 		} catch (UsernameNotFoundException unf) {
-			logger.error("Access to Admin Portal was denied due to a non existed user, Credentials that was given : User Name: " + email + ", Password: " + password);
+			logger.error("User does not exist. email:" + email + " | password: " + password);
 		} catch (Exception e) {
-			logger.error("An error occurred while trying to login to the Admin Portal");
+			logger.error("An error occurred while trying to login");
 			e.printStackTrace();
 		}
 		return null;

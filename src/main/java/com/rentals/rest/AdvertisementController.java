@@ -21,9 +21,9 @@ public class AdvertisementController {
 	private RentalManager advertisementManager;
 
 	@PostMapping("public/advertisements")
-	  public ResponseEntity<Page<Advertisement>> searchAdsByCriteria(@RequestBody List<FilterDTO> filterDTOList, @RequestParam int page, @RequestParam int size)
-	  {
-	    return ResponseEntity.ok().body(advertisementManager.searchAdsByCriteria(filterDTOList, page, size));
-	  }
-	
+	public ResponseEntity<Page<Advertisement>> searchAdsByCriteria(@RequestBody List<FilterDTO> filterDTOList,
+			@RequestParam int page, @RequestParam int size) {
+		return ResponseEntity.ok().body(advertisementManager.searchAdsByCriteria(filterDTOList, page, size));
+	}
+
 }

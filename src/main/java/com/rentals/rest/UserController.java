@@ -37,6 +37,6 @@ public class UserController {
 		WebResponse response = authManager.resetPassword(resetPasswordRequest);
 		return ResponseEntity.ok().body(response);
 	}
-	
-	//logout is provided automatically by spring security
+
+	// logout is provided automatically by spring security
 }

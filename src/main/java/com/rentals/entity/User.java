@@ -25,19 +25,19 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "user_id")
 	private UUID id;
-	@Column(unique=true)
-	private String email; 
+	@Column(unique = true)
+	private String email;
 	private Boolean emailConfirmed;
 	private String username;
 	private String password;
 	@Column(name = "ads_published")
 	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Advertisement> adsPublished;
-	
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_favorites", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "ad_id"))
 	private List<Advertisement> favorites;
-	
+
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
@@ -48,14 +48,14 @@ public class User {
 		this.username = username;
 		this.password = password;
 		this.emailConfirmed = false;
-		this.adsPublished = new ArrayList<Advertisement>() ;
-		this.favorites = new ArrayList<Advertisement>() ;
+		this.adsPublished = new ArrayList<Advertisement>();
+		this.favorites = new ArrayList<Advertisement>();
 	}
-	
+
 	public Boolean getEmailConfirmed() {
 		return emailConfirmed;
 	}
-	
+
 	public void setEmailConfirmed() {
 		this.emailConfirmed = true;
 	}
@@ -88,16 +88,15 @@ public class User {
 		this.password = password;
 	}
 
-	//Ads
+	// Ads
 
 	public List<Advertisement> getAdsPublished() {
 		return adsPublished;
 	}
-	
+
 	public void setAdsPublished(List<Advertisement> adsPublished) {
 		this.adsPublished = adsPublished;
 	}
-
 
 	public List<Advertisement> getAdsFavorited() {
 		return favorites;

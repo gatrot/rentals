@@ -16,27 +16,12 @@ import com.rentals.entity.User;
 import com.rentals.repository.UserRepository;
 import com.rentals.service.UserService;
 
-/**
- * A Service-Implementation class for the {@link UserDetails} DAO-Layer service
- * 
- * @author Hoffman
- *
- */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-	/*
-	 * Spring Dependency Injection
-	 */
+
 	@Autowired
 	private UserService userService;
 
-	/*
-	 * Get User By user name from DB
-	 * 
-	 * @param username
-	 * @param password
-	 * @return {@link UserDetails}
-	 */
 	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

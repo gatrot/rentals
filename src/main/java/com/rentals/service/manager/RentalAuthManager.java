@@ -26,7 +26,7 @@ public class RentalAuthManager {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private SecurityService securityService;
 
@@ -42,17 +42,17 @@ public class RentalAuthManager {
 		if (!userCreated) {
 			return new WebResponse(false, HttpStatus.INTERNAL_SERVER_ERROR, "Failed to create user");
 		}
-		
+
 		userDetailsDTO.setUserId(user.getId());
 		login(userDetailsDTO);
 		userDetailsDTO.setPassword(null);
-		//Send Confirmation Email here
+		// Send Confirmation Email here
 		return new WebResponse(true, HttpStatus.CREATED, Arrays.asList(userDetailsDTO));
 	}
 
 	public WebResponse login(UserDetailsDTO userDetailsDTO) {
 		User user = securityService.login(userDetailsDTO.getEmail(), userDetailsDTO.getPassword());
-		if (user!=null) {
+		if (user != null) {
 			userDetailsDTO.setUserId(user.getId());
 			userDetailsDTO.setUsername(user.getUsername());
 			userDetailsDTO.setPassword(null);
@@ -60,13 +60,12 @@ public class RentalAuthManager {
 		}
 		return new WebResponse(false, HttpStatus.UNAUTHORIZED, "Username or password are incorrect.");
 	}
-	
+
 	public WebResponse resetPassword(ResetPasswordRequest resetPasswordRequest) {
-		return null ;
+		return null;
 
 	}
 
-	
 //	public WebResponse test(Authentication authentication) {
 //		System.err.println(authentication);
 //		List<User> users = userService.getAllUsers();

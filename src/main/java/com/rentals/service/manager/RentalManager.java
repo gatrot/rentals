@@ -13,10 +13,10 @@ import com.rentals.service.UserService;
 
 @Service
 public class RentalManager {
-	
+
 	@Autowired
 	private AdvertisementService advertisementService;
-	
+
 	@Autowired
 	private UserService userService;
 

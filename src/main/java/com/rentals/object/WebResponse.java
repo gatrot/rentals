@@ -11,7 +11,6 @@ public class WebResponse {
 	private String message;
 
 	public WebResponse() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public WebResponse(Boolean success, HttpStatus status, List<? extends ResponseBodyBase> responseBody) {
@@ -28,7 +27,8 @@ public class WebResponse {
 		this.message = message;
 	}
 
-	public WebResponse(Boolean success, HttpStatus status, List<? extends ResponseBodyBase> responseBody, String message) {
+	public WebResponse(Boolean success, HttpStatus status, List<? extends ResponseBodyBase> responseBody,
+			String message) {
 		super();
 		this.success = success;
 		this.status = status;

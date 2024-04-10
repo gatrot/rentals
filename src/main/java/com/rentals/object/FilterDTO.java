@@ -11,7 +11,6 @@ public class FilterDTO {
 
 	public FilterDTO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public FilterDTO(String columnName, Object columnValue, OperationType operationType) {

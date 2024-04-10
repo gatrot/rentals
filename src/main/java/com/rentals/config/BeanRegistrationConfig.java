@@ -1,6 +1,5 @@
 package com.rentals.config;
 
-
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +28,7 @@ public class BeanRegistrationConfig {
 	 * @return {@link ReloadableResourceBundleMessageSource}
 	 */
 	@Bean
-	public MessageSource messageSource() {
+	MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("classpath:messages");
 		messageSource.setDefaultEncoding("UTF-8");
@@ -44,7 +43,7 @@ public class BeanRegistrationConfig {
 	 * @return {@link MessageSourceAccessor}
 	 */
 	@Bean(name = "messageSourceAccessor")
-	public org.springframework.context.support.MessageSourceAccessor messageSourceAccessor() {
+	org.springframework.context.support.MessageSourceAccessor messageSourceAccessor() {
 		return new MessageSourceAccessor(messageSource());
 	}
 
@@ -56,7 +55,7 @@ public class BeanRegistrationConfig {
 	 * @return {@link MessageSourceAccessor}
 	 */
 	@Bean
-	public LocalValidatorFactoryBean getValidator() {
+	LocalValidatorFactoryBean getValidator() {
 		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
 		bean.setValidationMessageSource(messageSource());
 		return bean;

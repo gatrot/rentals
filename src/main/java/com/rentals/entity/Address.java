@@ -16,7 +16,7 @@ public class Address {
 	@Id
 	@Column(name = "ad_id")
 	private UUID adId;
-	@MapsId //copy ad id
+	@MapsId // copy ad id
 	@OneToOne
 	@JoinColumn(name = "ad_id")
 	private Advertisement ad;
@@ -24,11 +24,11 @@ public class Address {
 	private String city;
 	private String street;
 	private String streetNum;
-	
+
 	public Address() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Address(String country, String city, String street, String streetNum) {
 		super();
 		this.country = country;
@@ -76,6 +76,5 @@ public class Address {
 	public void setAdId(Advertisement adId) {
 		this.ad = adId;
 	}
-	
-}
 
+}

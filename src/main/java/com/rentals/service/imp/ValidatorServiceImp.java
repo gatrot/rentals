@@ -23,9 +23,6 @@ import com.rentals.util.RentalsUtil;
 @Service
 public class ValidatorServiceImp implements Validator {
 
-	/**
-	 * Spring Dependency Injection
-	 */
 	@Autowired
 	@Qualifier("messageSourceAccessor")
 	private MessageSourceAccessor messageSourceAccessor;
@@ -74,14 +71,6 @@ public class ValidatorServiceImp implements Validator {
 
 	}
 
-	/**
-	 * Method will obtain all injected errors from the {@link BindingResult}
-	 * Spring-Bean and will inject it into our {@link LoginError} POJO to be
-	 * presented to the Front-End user.
-	 * 
-	 * @param bindingResult
-	 * @return {@link LoginError}
-	 */
 	public String getError(BindingResult bindingResult) {
 		String error = null;
 		if (!bindingResult.getAllErrors().isEmpty()) {

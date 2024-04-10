@@ -10,76 +10,58 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-/**
- * A Web security configuration class for determining web behaviour,Authorities and user roles
- * @author Hoffman
- *
- */
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+	@Autowired
+	public UserDetailsService userDetailsService;
+
 	/*
-	 *Spring Dependency Injection 
+	 * Creates a {@link BCryptPasswordEncoder} Spring-Bean to be used when ever
+	 * encryption is need
+	 * 
+	 * @return {@link BCryptPasswordEncoder}
 	 */
-    @Autowired
-    public UserDetailsService userDetailsService ;
+	@Bean
+	BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    /*
-     * Creates a {@link BCryptPasswordEncoder} Spring-Bean to be 
-     * used when ever encryption  is need 
-     * @return {@link BCryptPasswordEncoder}
-     */
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	/*
+	 * Main Web security configuration method
+	 */
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests()
+				// Permit all HTTP requests that contain the word /global/ or trying to get a
+				// static resource (besides user_profile.html)
+				.antMatchers("/resources/**", "/index.html", "/public/**", "/").permitAll()
+				// Authenticate every HTTP request that trying to get to a authenticated-resorce
+				.antMatchers("/user_profile.html", "/private/**").authenticated()
+				// Any request besides the above configuration : authenticate
+				.anyRequest().authenticated()
+				// Register a logout URL and a logout Success URL to be redirected to (upon
+				// successful user logout)
+				.and().logout().logoutUrl("/private/logout").logoutSuccessUrl("/index.html");
 
-    /*
-     *Main Web security configuration method 
-     */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-    	  http
-    	     .authorizeRequests()
-    	     	 //Permit all HTTP requests that contain the word /global/ or trying to get a static resource (besides user_profile.html) 
-    	         .antMatchers("/resources/**","/index.html","/public/**", "/").permitAll() 
-    	         //Authenticate every HTTP request that trying to get to a authenticated-resorce by checking ROLE-USER
-    	         .antMatchers("/user_profile.html" , "/private/**").authenticated()
-    	         //Any request besides the above configuration : authenticate
-    	         .anyRequest().authenticated()
-    	         //Register a logout URL and a logout Success URL to be redirected to (upon successful user logout) 
-    	         .and()
-    	         .logout()
-    	         .logoutUrl("/private/logout")
-    	         .logoutSuccessUrl("/index.html") ;
-    	        
-    	         //Allow <iframe> to be open if the request came from the same origin
-    	 http
-    	 	.headers()
-	         .frameOptions()
-	         .sameOrigin()
-	         .and()
-             .csrf()
-             .disable();
-    	  
+		// Allow <iframe> to be open if the request came from the same origin
+		http.headers().frameOptions().sameOrigin().and().csrf().disable();
 
-    }
+	}
 
-    /*
-     * Via injection we are configuring {@link AuthenticationManagerBuilder} 
-     * to use {@link UserDetailsService} as the 
-     * and {@link BCryptPasswordEncoder} as the password encryptor. 
-     */
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-    }
-    
-    @Bean
-    public AuthenticationManager getAuthenticationManager() throws Exception {
-        return super.authenticationManagerBean();
-    }
-    
-    
+	/*
+	 * Via injection we are configuring {@link AuthenticationManagerBuilder} to use
+	 * {@link UserDetailsService} as the and {@link BCryptPasswordEncoder} as the
+	 * password encryptor.
+	 */
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+	}
 
-    
+	@Bean
+	AuthenticationManager getAuthenticationManager() throws Exception {
+		return super.authenticationManagerBean();
+	}
+
 }

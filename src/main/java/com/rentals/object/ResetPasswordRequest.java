@@ -7,7 +7,6 @@ public class ResetPasswordRequest {
 	private String newPassword;
 
 	public ResetPasswordRequest() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public ResetPasswordRequest(String token, String email, String newPassword) {
