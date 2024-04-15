@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +24,7 @@ public class SecurityServiceImp implements SecurityService {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
-
+	
 	@Autowired
 	private UserService userService;
 
@@ -31,11 +32,9 @@ public class SecurityServiceImp implements SecurityService {
 
 	@Override
 	public String findLoggedInUserEmail() {
-		Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
-		if (userDetails instanceof UserDetails) {
-			return ((UserDetails) userDetails).getUsername();
-		}
-		return null;
+		Authentication authentication  = SecurityContextHolder.getContext().getAuthentication() ;
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		return ((UserDetails) userDetails).getUsername();
 	}
 
 	@Override

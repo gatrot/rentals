@@ -1,5 +1,6 @@
 package com.rentals.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -45,9 +46,10 @@ public class Advertisement {
 	@Column(name = "acc_type")
 	private AccommodationType accType;
 	private Date availability;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
-	private User userId;
+	private User user;
 
 	@ManyToMany(mappedBy = "favorites", fetch = FetchType.LAZY)
 	private List<User> favoritedBy;
@@ -55,7 +57,7 @@ public class Advertisement {
 	@Column(name = "user_name")
 	private String userName;
 	private String phone;
-	@OneToMany(mappedBy = "adId", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "ad", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private List<Image> images;
 	private Boolean garage;
 	private Boolean parking;
@@ -92,6 +94,8 @@ public class Advertisement {
 		this.furnished = furnished;
 		this.pets = pets;
 		this.renewal = renewal;
+		this.favoritedBy = new ArrayList<>() ;
+		this.images = new ArrayList<>() ;
 	}
 
 	public UUID getId() {
@@ -175,11 +179,11 @@ public class Advertisement {
 	}
 
 	public User getUser() {
-		return userId;
+		return user;
 	}
 
 	public void setUser(User userId) {
-		this.userId = userId;
+		this.user = userId;
 	}
 
 	public String getUserName() {

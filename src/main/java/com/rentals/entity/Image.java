@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "IMAGES")
 public class Image {
@@ -14,6 +16,7 @@ public class Image {
 	@Column(unique = true)
 	private String url;
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonIgnore
 	private Advertisement ad;
 
 	public Image() {

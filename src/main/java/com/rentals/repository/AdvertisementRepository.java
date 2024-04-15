@@ -17,7 +17,7 @@ public interface AdvertisementRepository
 		extends JpaRepository<Advertisement, UUID>, JpaSpecificationExecutor<Advertisement> {
 
 	@RestResource(exported = false)
-	@Query("SELECT ad FROM Advertisement AS ad WHERE ad.userId = :userId")
+	@Query("SELECT ad FROM Advertisement AS ad WHERE ad.user = :userId")
 	public List<Advertisement> getAdsCreatedByUser(@Param("userId") UUID userId);
 
 	@RestResource(exported = false)

@@ -30,8 +30,8 @@ public class User {
 	private Boolean emailConfirmed;
 	private String username;
 	private String password;
-	@Column(name = "ads_published")
-	@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Advertisement> adsPublished;
 
 	@ManyToMany(fetch = FetchType.LAZY)

@@ -15,6 +15,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.rentals.entity.Address;
 import com.rentals.entity.Advertisement;
 import com.rentals.entity.Image;
@@ -45,6 +47,9 @@ public class RentalsApplication implements CommandLineRunner {
 	// TESTS
 	@Override
 	public void run(String... args) throws Exception {
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		
+		
 		/**
 		 * Creating new User + his Ad
 		 */
@@ -52,6 +57,7 @@ public class RentalsApplication implements CommandLineRunner {
 		// Init user
 		userRepo.deleteAll();
 		adRepo.deleteAll();
+		
 		User userA = new User("orenh@gmail.com", "orenhoffman", "qweqwasdc1234");
 
 		// Init AdsPublished
@@ -65,9 +71,11 @@ public class RentalsApplication implements CommandLineRunner {
 		address.setAd(adA);
 		adA.setAddress(address);
 
-		images.forEach(image -> image.setAdId(adA));
+		images.forEach(image -> image.setAd(adA));
 		adA.setImages(images);
-
+		String json = ow.writeValueAsString(adA);
+		System.out.println(json);
+		
 		// Setting AdsPublished in User
 		List<Advertisement> adsPublished = new ArrayList<>();
 		adsPublished.add(adA);
@@ -75,31 +83,31 @@ public class RentalsApplication implements CommandLineRunner {
 		userA.setAdsFavorited(adsPublished);
 
 		// Setting User on Advertisement
-		adA.setUserId(userA);
+		adA.setUser(userA);
 
 		// Create User + Add
 		userRepo.save(userA);
 
+		
 		/**
 		 * Creating new User + And updating him with favorites
 		 */
+		
+		//Create User
 		User userB = new User("get@gmail.com", "gatrotman", "qweqwasdc1234");
 		userRepo.save(userB);
-
 		Optional<User> optionalUserB = userRepo.findById(userB.getId());
 		User userBFromDB = optionalUserB.get();
+		
+		//Get Ad from DB
 		UUID adAId = adA.getId();
 		Advertisement adAFromDB = adRepo.findById(adAId).get();
 
-		List<Advertisement> adsPublishedToUpdate = new ArrayList<>();
+		List<Advertisement> adsPublishedToUpdate = userB.getAdsFavorited() ;
 		adsPublishedToUpdate.add(adAFromDB);
 		userBFromDB.setAdsFavorited(adsPublishedToUpdate);
 
-		List<User> favoritedBy = Arrays.asList(userB);
-		adAFromDB.setFavoritedBy(favoritedBy);
-
 		userRepo.save(userB);
-		adRepo.save(adAFromDB);
 
 	}
 

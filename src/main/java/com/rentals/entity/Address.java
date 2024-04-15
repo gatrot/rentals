@@ -10,6 +10,8 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "ADDRESSES")
 public class Address {
@@ -19,6 +21,7 @@ public class Address {
 	@MapsId // copy ad id
 	@OneToOne
 	@JoinColumn(name = "ad_id")
+	@JsonIgnore
 	private Advertisement ad;
 	private String country;
 	private String city;

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,9 +29,8 @@ public class AdvertisementController {
 		return ResponseEntity.ok().body(rentalsManager.searchAdsByCriteria(filterDTOList, page, size));
 	}
 
-	//TODO CREATE AD
 	@PostMapping("private/advertisements/create")
-	public ResponseEntity<WebResponse> createAd(@RequestBody AdvertisementDTO advertisementDTO) {
+	public ResponseEntity<WebResponse> createAd(@RequestBody AdvertisementDTO advertisementDTO, Authentication authentication) {
 		WebResponse response = rentalsManager.createAd(advertisementDTO);
 		return ResponseEntity.ok().body(response);
 	}
