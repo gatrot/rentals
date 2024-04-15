@@ -1,20 +1,26 @@
 package com.rentals.service.manager;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import com.rentals.entity.Address;
 import com.rentals.entity.Advertisement;
 import com.rentals.entity.User;
+import com.rentals.object.AddressDTO;
+import com.rentals.object.AdvertisementDTO;
 import com.rentals.object.EmailType;
 import com.rentals.object.FilterDTO;
+import com.rentals.object.ImageDTO;
 import com.rentals.object.ResetPasswordRequest;
 import com.rentals.object.UserDetailsDTO;
 import com.rentals.object.WebResponse;
@@ -45,6 +51,9 @@ public class RentalsManager {
 
 	@Autowired
 	private EmailServiceImpl emailServiceImp;
+	
+	@Autowired
+    private ModelMapper modelMapper;
 
 	public Page<Advertisement> searchAdsByCriteria(List<FilterDTO> filterDTOList, int page, int size) {
 		return advertisementService.searchAdsByCriteria(filterDTOList, page, size);
@@ -105,6 +114,29 @@ public class RentalsManager {
 		}
 		return new WebResponse(false, HttpStatus.UNAUTHORIZED, "Incorrect token. Registry wasn't finished.");
 	}
+	
+	public WebResponse createAd(AdvertisementDTO advertisementDTO) {
+		try {
+			Advertisement ad = modelMapper.map(advertisementDTO, Advertisement.class);
+			Address address = modelMapper.map(advertisementDTO.getAddress(), Address.class);
+			String userEmail = securityService.findLoggedInUserEmail();
+			User user = userService.findUserByEmail(userEmail);
+			ad.setAddress(address);
+			address.setAd(ad);
+			ad.getImages().forEach(image -> image.setAd(ad));
+			List<Advertisement> adsPublished = user.getAdsPublished();
+			adsPublished.add(ad);
+			ad.setUser(user);
+			userService.updateUser(user);
+			advertisementDTO.setId(ad.getId());
+			return new WebResponse(true, HttpStatus.CREATED, Arrays.asList(advertisementDTO));
+			
+		} catch (Exception e) {
+			return new WebResponse(false, HttpStatus.INTERNAL_SERVER_ERROR, "Failed to create advertisement.");
+		}
+	}
+	
+	
 
 //	public WebResponse test(Authentication authentication) {
 //		System.err.println(authentication);

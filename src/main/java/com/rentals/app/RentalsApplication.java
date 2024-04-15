@@ -62,7 +62,7 @@ public class RentalsApplication implements CommandLineRunner {
 
 		// Setting Address+Ad
 		Address address = new Address("Somewhere", "City", "street Number", "22");
-		address.setAdId(adA);
+		address.setAd(adA);
 		adA.setAddress(address);
 
 		images.forEach(image -> image.setAdId(adA));

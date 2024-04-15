@@ -30,7 +30,7 @@ public class SecurityServiceImp implements SecurityService {
 	private static final Logger logger = LogManager.getLogger(SecurityServiceImp.class);
 
 	@Override
-	public String findLoggedInUsername() {
+	public String findLoggedInUserEmail() {
 		Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
 		if (userDetails instanceof UserDetails) {
 			return ((UserDetails) userDetails).getUsername();

@@ -14,7 +14,7 @@ public class Image {
 	@Column(unique = true)
 	private String url;
 	@ManyToOne(fetch = FetchType.EAGER)
-	private Advertisement adId;
+	private Advertisement ad;
 
 	public Image() {
 		// TODO Auto-generated constructor stub
@@ -33,12 +33,14 @@ public class Image {
 		this.url = url;
 	}
 
-	public Advertisement getAdId() {
-		return adId;
+	public Advertisement getAd() {
+		return ad;
 	}
 
-	public void setAdId(Advertisement adId) {
-		this.adId = adId;
+	public void setAd(Advertisement adId) {
+		this.ad = adId;
 	}
+
+	
 
 }

@@ -1,4 +1,4 @@
-package com.rentals.entity;
+package com.rentals.object;
 
 import java.util.Date;
 import java.util.List;
@@ -6,75 +6,45 @@ import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 
-import com.rentals.object.AccommodationType;
+import com.rentals.entity.Address;
+import com.rentals.entity.Image;
+import com.rentals.entity.User;
 
-@Entity
-@Table(name = "ADS")
-public class Advertisement {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ad_id")
-	private UUID id;
-	@Column(name = "date_added")
-	private Date dateAdded;
-	@OneToOne(mappedBy = "ad", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	@PrimaryKeyJoinColumn
-	private Address address; // ad id is the foreign primary key in addresses table
+public class AdvertisementDTO extends ResponseBodyBase {
+	private AddressDTO address;
 	private Integer rooms;
 	private String description;
 	private Integer price;
 	private Integer floor;
 	private Integer space;
-	@Enumerated(EnumType.STRING)
-	@Column(name = "acc_type")
 	private AccommodationType accType;
 	private Date availability;
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id")
-	private User userId;
-
-	@ManyToMany(mappedBy = "favorites", fetch = FetchType.LAZY)
-	private List<User> favoritedBy;
-
-	@Column(name = "user_name")
 	private String userName;
 	private String phone;
-	@OneToMany(mappedBy = "adId", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	private List<Image> images;
+	private List<ImageDTO> images;
 	private Boolean garage;
 	private Boolean parking;
 	private Boolean elevator;
 	private Boolean balcony;
 	private Boolean furnished;
 	private Boolean pets;
-	private Date renewal;
+	private UUID id;
 
-	public Advertisement() {
+	public AdvertisementDTO() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Advertisement(Date dateAdded, int rooms, String description, int price, int floor, int space,
-			AccommodationType accType, Date availability, String userName, String phone, List<Image> images,
-			Boolean garage, Boolean parking, Boolean elevator, Boolean balcony, Boolean furnished, Boolean pets,
-			Date renewal) {
+	public AdvertisementDTO(AddressDTO address, Integer rooms, String description, Integer price, Integer floor,
+			Integer space, AccommodationType accType, Date availability, String userName, String phone,
+			List<ImageDTO> images, Boolean garage, Boolean parking, Boolean elevator, Boolean balcony,
+			Boolean furnished, Boolean pets) {
 		super();
-		this.dateAdded = dateAdded;
+		this.address = address;
 		this.rooms = rooms;
 		this.description = description;
 		this.price = price;
@@ -91,38 +61,21 @@ public class Advertisement {
 		this.balcony = balcony;
 		this.furnished = furnished;
 		this.pets = pets;
-		this.renewal = renewal;
 	}
 
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
-	public Date getDateAdded() {
-		return dateAdded;
-	}
-
-	public void setDateAdded(Date dateAdded) {
-		this.dateAdded = dateAdded;
-	}
-
-	public Address getAddress() {
+	public AddressDTO getAddress() {
 		return address;
 	}
 
-	public void setAddress(Address address) {
+	public void setAddress(AddressDTO address) {
 		this.address = address;
 	}
 
-	public int getRooms() {
+	public Integer getRooms() {
 		return rooms;
 	}
 
-	public void setRooms(int rooms) {
+	public void setRooms(Integer rooms) {
 		this.rooms = rooms;
 	}
 
@@ -134,27 +87,27 @@ public class Advertisement {
 		this.description = description;
 	}
 
-	public int getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 
-	public int getFloor() {
+	public Integer getFloor() {
 		return floor;
 	}
 
-	public void setFloor(int floor) {
+	public void setFloor(Integer floor) {
 		this.floor = floor;
 	}
 
-	public int getSpace() {
+	public Integer getSpace() {
 		return space;
 	}
 
-	public void setSpace(int space) {
+	public void setSpace(Integer space) {
 		this.space = space;
 	}
 
@@ -174,14 +127,6 @@ public class Advertisement {
 		this.availability = availability;
 	}
 
-	public User getUser() {
-		return userId;
-	}
-
-	public void setUser(User userId) {
-		this.userId = userId;
-	}
-
 	public String getUserName() {
 		return userName;
 	}
@@ -198,11 +143,11 @@ public class Advertisement {
 		this.phone = phone;
 	}
 
-	public List<Image> getImages() {
+	public List<ImageDTO> getImages() {
 		return images;
 	}
 
-	public void setImages(List<Image> images) {
+	public void setImages(List<ImageDTO> images) {
 		this.images = images;
 	}
 
@@ -254,20 +199,12 @@ public class Advertisement {
 		this.pets = pets;
 	}
 
-	public Date getRenewal() {
-		return renewal;
+	public UUID getId() {
+		return id;
 	}
 
-	public void setRenewal(Date renewal) {
-		this.renewal = renewal;
-	}
-
-	public List<User> getFavoritedBy() {
-		return favoritedBy;
-	}
-
-	public void setFavoritedBy(List<User> favoritedBy) {
-		this.favoritedBy = favoritedBy;
+	public void setId(UUID id) {
+		this.id = id;
 	}
 
 }

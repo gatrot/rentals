@@ -4,7 +4,7 @@ import com.rentals.entity.User;
 
 public interface SecurityService {
 
-	public String findLoggedInUsername();
+	public String findLoggedInUserEmail();
 
 	public User login(String email, String password);
 }

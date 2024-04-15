@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rentals.entity.Advertisement;
+import com.rentals.object.AdvertisementDTO;
 import com.rentals.object.FilterDTO;
+import com.rentals.object.WebResponse;
 import com.rentals.service.manager.RentalsManager;
 
 @RestController
@@ -26,4 +28,10 @@ public class AdvertisementController {
 		return ResponseEntity.ok().body(rentalsManager.searchAdsByCriteria(filterDTOList, page, size));
 	}
 
+	//TODO CREATE AD
+	@PostMapping("private/advertisements/create")
+	public ResponseEntity<WebResponse> createAd(@RequestBody AdvertisementDTO advertisementDTO) {
+		WebResponse response = rentalsManager.createAd(advertisementDTO);
+		return ResponseEntity.ok().body(response);
+	}
 }

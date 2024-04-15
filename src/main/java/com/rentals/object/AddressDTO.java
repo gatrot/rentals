@@ -1,40 +1,36 @@
-package com.rentals.entity;
+package com.rentals.object;
 
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import com.rentals.entity.Advertisement;
 
-@Entity
-@Table(name = "ADDRESSES")
-public class Address {
-	@Id
-	@Column(name = "ad_id")
+public class AddressDTO {
 	private UUID adId;
-	@MapsId // copy ad id
-	@OneToOne
-	@JoinColumn(name = "ad_id")
-	private Advertisement ad;
 	private String country;
 	private String city;
 	private String street;
 	private String streetNum;
 
-	public Address() {
+	public AddressDTO() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Address(String country, String city, String street, String streetNum) {
+	public AddressDTO(UUID adId, String country, String city, String street, String streetNum) {
 		super();
+		this.adId = adId;
 		this.country = country;
 		this.city = city;
 		this.street = street;
 		this.streetNum = streetNum;
+	}
+
+	public UUID getAdId() {
+		return adId;
+	}
+
+	public void setAdId(UUID adId) {
+		this.adId = adId;
 	}
 
 	public String getCountry() {
@@ -69,21 +65,4 @@ public class Address {
 		this.streetNum = streetNum;
 	}
 
-	public UUID getAdId() {
-		return adId;
-	}
-
-	public void setAdId(UUID adId) {
-		this.adId = adId;
-	}
-
-	public Advertisement getAd() {
-		return ad;
-	}
-
-	public void setAd(Advertisement ad) {
-		this.ad = ad;
-	}
-
-	
 }
