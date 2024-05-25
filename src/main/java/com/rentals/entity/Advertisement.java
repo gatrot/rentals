@@ -34,8 +34,8 @@ public class Advertisement {
 	private UUID id;
 	@Column(name = "date_added")
 	private Date dateAdded;
-	@OneToOne(mappedBy = "ad", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	@PrimaryKeyJoinColumn
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
 	private Address address; // ad id is the foreign primary key in addresses table
 	private Integer rooms;
 	private String description;
@@ -272,6 +272,11 @@ public class Advertisement {
 
 	public void setFavoritedBy(List<User> favoritedBy) {
 		this.favoritedBy = favoritedBy;
+	}
+
+	public boolean isNotComplate() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

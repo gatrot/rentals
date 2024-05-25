@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "IMAGES")
+@Table(name = "IMAGE")
 public class Image {
 	@Id
 	@Column(unique = true)

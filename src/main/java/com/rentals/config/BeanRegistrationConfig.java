@@ -1,12 +1,15 @@
 package com.rentals.config;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Configuration class will be called upon application upload to create and
@@ -61,10 +64,20 @@ public class BeanRegistrationConfig {
 		bean.setValidationMessageSource(messageSource());
 		return bean;
 	}
-	
+
 	@Bean
 	ModelMapper modelMapper() {
-	    return new ModelMapper();
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setAmbiguityIgnored(true);
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		return modelMapper;
+	}
+
+	@Bean
+	ObjectMapper getObjectMapper() {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.writer().withDefaultPrettyPrinter();
+		return mapper;
 	}
 
 }

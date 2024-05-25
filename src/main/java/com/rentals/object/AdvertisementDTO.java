@@ -4,25 +4,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-
-import com.rentals.entity.Address;
-import com.rentals.entity.Image;
-import com.rentals.entity.User;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AdvertisementDTO extends ResponseBodyBase {
+	private UUID id;
 	private AddressDTO address;
 	private Integer rooms;
 	private String description;
 	private Integer price;
 	private Integer floor;
 	private Integer space;
+	@JsonProperty("date_added")
+	private Date dateAdded;
+	@JsonProperty("acc_type")
 	private AccommodationType accType;
 	private Date availability;
+	@JsonProperty("user_name")
 	private String userName;
 	private String phone;
 	private List<ImageDTO> images;
@@ -32,7 +29,7 @@ public class AdvertisementDTO extends ResponseBodyBase {
 	private Boolean balcony;
 	private Boolean furnished;
 	private Boolean pets;
-	private UUID id;
+	private Date renewal;
 
 	public AdvertisementDTO() {
 		super();
@@ -42,7 +39,7 @@ public class AdvertisementDTO extends ResponseBodyBase {
 	public AdvertisementDTO(AddressDTO address, Integer rooms, String description, Integer price, Integer floor,
 			Integer space, AccommodationType accType, Date availability, String userName, String phone,
 			List<ImageDTO> images, Boolean garage, Boolean parking, Boolean elevator, Boolean balcony,
-			Boolean furnished, Boolean pets) {
+			Boolean furnished, Boolean pets, Date dateAdded, Date renewal) {
 		super();
 		this.address = address;
 		this.rooms = rooms;
@@ -61,6 +58,8 @@ public class AdvertisementDTO extends ResponseBodyBase {
 		this.balcony = balcony;
 		this.furnished = furnished;
 		this.pets = pets;
+		this.dateAdded = 	dateAdded;
+		this.renewal = 	renewal;
 	}
 
 	public AddressDTO getAddress() {
@@ -206,5 +205,25 @@ public class AdvertisementDTO extends ResponseBodyBase {
 	public void setId(UUID id) {
 		this.id = id;
 	}
+
+	public Date getDateAdded() {
+		return dateAdded;
+	}
+
+	public void setDateAdded(Date dateAdded) {
+		this.dateAdded = dateAdded;
+	}
+
+	public Date getRenewal() {
+		return renewal;
+	}
+
+	public void setRenewal(Date renewal) {
+		this.renewal = renewal;
+	}
+	
+	
+	
+	
 
 }

@@ -2,13 +2,14 @@ package com.rentals.object;
 
 import java.util.UUID;
 
-import com.rentals.entity.Advertisement;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AddressDTO {
 	private UUID adId;
 	private String country;
 	private String city;
-	private String street;
+	private String streetNameHebrew;
+	private String streetNameEnglish;
 	private String streetNum;
 
 	public AddressDTO() {
@@ -16,12 +17,14 @@ public class AddressDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public AddressDTO(UUID adId, String country, String city, String street, String streetNum) {
+	public AddressDTO(UUID adId, String country, String city, String streetNameHebrew, String streetNameEnglish,
+			String streetNum) {
 		super();
 		this.adId = adId;
 		this.country = country;
 		this.city = city;
-		this.street = street;
+		this.streetNameHebrew = streetNameHebrew;
+		this.streetNameEnglish = streetNameEnglish;
 		this.streetNum = streetNum;
 	}
 
@@ -49,12 +52,20 @@ public class AddressDTO {
 		this.city = city;
 	}
 
-	public String getStreet() {
-		return street;
+	public String getStreetNameHebrew() {
+		return streetNameHebrew;
 	}
 
-	public void setStreet(String street) {
-		this.street = street;
+	public void setStreetNameHebrew(String streetNameHebrew) {
+		this.streetNameHebrew = streetNameHebrew;
+	}
+
+	public String getStreetNameEnglish() {
+		return streetNameEnglish;
+	}
+
+	public void setStreetNameEnglish(String streetNameEnglish) {
+		this.streetNameEnglish = streetNameEnglish;
 	}
 
 	public String getStreetNum() {

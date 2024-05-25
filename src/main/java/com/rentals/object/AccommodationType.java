@@ -10,5 +10,10 @@ public enum AccommodationType {
     DUPLEX,
     STUDIO,
     SWAP,
-    SUBLET
+    SUBLET,
+    VILLA,
+    PENTHOUSE,
+    TOWNHOUSE,
+    COTTAGE,
+    BUNGALOW
   }

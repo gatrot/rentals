@@ -1,0 +1,38 @@
+[
+	{
+		"email": "john.doe@example.com",
+		"emailConfirmed": true,
+		"username": "johndoe87",
+		"password": "securePassword123"
+	},
+	{
+		"email": "alice.smith@example.com",
+		"emailConfirmed": true,
+		"username": "asmith",
+		"password": "strongPass!word"
+	},
+	{
+		"email": "bob.jones@example.com",
+		"emailConfirmed": true,
+		"username": "bobj",
+		"password": "1234abcd"
+	},
+	{
+		"email": "emily.jackson@example.com",
+		"emailConfirmed": true,
+		"username": "emilyjackson22",
+		"password": "P@ssw0rd"
+	},
+	{
+		"email": "alexander.smith@example.com",
+		"emailConfirmed": true,
+		"username": "alexsmith95",
+		"password": "SecurePass123!"
+	},
+	{
+		"email": "sophia.wilson@example.com",
+		"emailConfirmed": true,
+		"username": "sophiawilson",
+		"password": "Wilson2023!"
+	}
+]

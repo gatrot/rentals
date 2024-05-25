@@ -21,8 +21,7 @@ public class FilterCriteriaForAdsUtil {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public Predicate toPredicate(Root<Advertisement> root, CriteriaQuery<?> query,
-					CriteriaBuilder criteriaBuilder) {
+			public Predicate toPredicate(Root<Advertisement> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 
 				List<Predicate> predicates = new ArrayList<>();
 
@@ -32,7 +31,16 @@ public class FilterCriteriaForAdsUtil {
 					switch (filter.getOperationType()) {
 					default:
 					case EQUALS:
-						predicate = criteriaBuilder.equal(root.get(filter.getColumnName()), filter.getColumnValue());
+						Object objColumnValue ;
+						String strColumnValue = String.valueOf(filter.getColumnValue()) ;
+						if(strColumnValue.equalsIgnoreCase("true") || strColumnValue.equalsIgnoreCase("false")){
+							Boolean result = Boolean.parseBoolean(strColumnValue);
+							objColumnValue = result ;
+						}
+						else {
+							objColumnValue = strColumnValue ;
+						}
+						predicate = criteriaBuilder.equal(root.get(filter.getColumnName()), objColumnValue );
 						break;
 
 					case BIGGER:

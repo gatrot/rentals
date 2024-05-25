@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,9 +23,15 @@ public class AdvertisementController {
 
 	@Autowired
 	private RentalsManager rentalsManager;
+	
+//	@GetMapping("public/get-all-adds")
+//	public ResponseEntity<WebResponse> getAllAdds() {
+//		WebResponse response = rentalsManager.getAllAdds();
+//		return ResponseEntity.ok().body(response);
+//	}
 
-	@PostMapping("public/advertisements")
-	public ResponseEntity<Page<Advertisement>> searchAdsByCriteria(@RequestBody List<FilterDTO> filterDTOList,
+	@PostMapping("public/advertisements/get-ads-by-criteria")
+	public ResponseEntity<List<AdvertisementDTO>> searchAdsByCriteria(@RequestBody List<FilterDTO> filterDTOList,
 			@RequestParam int page, @RequestParam int size) {
 		return ResponseEntity.ok().body(rentalsManager.searchAdsByCriteria(filterDTOList, page, size));
 	}

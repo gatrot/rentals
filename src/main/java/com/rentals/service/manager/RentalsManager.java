@@ -2,6 +2,7 @@ package com.rentals.service.manager;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -52,8 +53,11 @@ public class RentalsManager {
 	@Autowired
 	private ModelMapper modelMapper;
 
-	public Page<Advertisement> searchAdsByCriteria(List<FilterDTO> filterDTOList, int page, int size) {
-		return advertisementService.searchAdsByCriteria(filterDTOList, page, size);
+	public List<AdvertisementDTO> searchAdsByCriteria(List<FilterDTO> filterDTOList, int page, int size) {
+		Page<Advertisement> adsPages = advertisementService.searchAdsByCriteria(filterDTOList, page, size);
+		List<Advertisement>  ads = adsPages.getContent();
+		List<AdvertisementDTO>  adsDtos  = mapList(ads, AdvertisementDTO.class);
+		return adsDtos  ; 
 	}
 
 	public WebResponse registration(UserDetailsDTO userDetailsDTO, BindingResult bindingResult,
@@ -76,7 +80,7 @@ public class RentalsManager {
 					"Failed to send confirmation email, rolling back transaction.");
 		}
 
-		userDetailsDTO.setUserId(user.getId());
+		userDetailsDTO.setId(user.getId());
 		login(userDetailsDTO);
 		userDetailsDTO.setPassword(null);
 		return new WebResponse(true, HttpStatus.CREATED, Arrays.asList(userDetailsDTO));
@@ -85,7 +89,7 @@ public class RentalsManager {
 	public WebResponse login(UserDetailsDTO userDetailsDTO) {
 		User user = securityService.login(userDetailsDTO.getEmail(), userDetailsDTO.getPassword());
 		if (user != null) {
-			userDetailsDTO.setUserId(user.getId());
+			userDetailsDTO.setId(user.getId());
 			userDetailsDTO.setUsername(user.getUsername());
 			userDetailsDTO.setPassword(null);
 			return new WebResponse(true, HttpStatus.OK, Arrays.asList(userDetailsDTO));
@@ -114,8 +118,8 @@ public class RentalsManager {
 
 	public WebResponse createAd(AdvertisementDTO advertisementDTO) {
 		try {
-			Advertisement ad = modelMapper.map(advertisementDTO, Advertisement.class);
-			Address address = modelMapper.map(advertisementDTO.getAddress(), Address.class);
+			Advertisement ad = mapOne(advertisementDTO, Advertisement.class);
+			Address address = mapOne(advertisementDTO.getAddress(), Address.class);
 			String userEmail = securityService.findLoggedInUserEmail();
 			User user = userService.findUserByEmail(userEmail);
 
@@ -136,16 +140,15 @@ public class RentalsManager {
 		}
 	}
 
-//	public WebResponse test(Authentication authentication) {
-//		System.err.println(authentication);
-//		List<User> users = userService.getAllUsers();
-//		List<UserDetailsDTO> userDetailsDTOs 
-//		= users
-//		.stream()
-//		.map(user -> new UserDetailsDTO(user.getEmail(), user.getUsername(), "Ah Ah Ah"))
-//		.collect(Collectors.toList()) ;
-//		return new WebResponse(true, HttpStatus.OK, userDetailsDTOs );
-//
-//	}
+	<S, T> List<T> mapList(List<S> source, Class<T> targetClass) {
+	    return source
+	      .stream()
+	      .map(element -> modelMapper.map(element, targetClass))
+	      .collect(Collectors.toList());
+	}
+	
+	<S, T> T mapOne(S source, Class<T> targetClass) {
+	    return modelMapper.map(source, targetClass);
+	}
 
 }
