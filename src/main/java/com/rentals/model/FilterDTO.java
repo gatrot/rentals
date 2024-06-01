@@ -1,4 +1,4 @@
-package com.rentals.object;
+package com.rentals.model;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;

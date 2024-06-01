@@ -23,9 +23,10 @@ public class Image {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Image(String url) {
+	public Image(String url, Advertisement ad) {
 		super();
 		this.url = url;
+		this.ad = ad; 
 	}
 
 	public String getUrl() {

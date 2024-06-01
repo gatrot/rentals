@@ -1,11 +1,12 @@
 package com.rentals.service;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 
 import com.rentals.entity.Advertisement;
-import com.rentals.object.FilterDTO;
+import com.rentals.model.FilterDTO;
 
 public interface AdvertisementService {
 
@@ -13,7 +14,15 @@ public interface AdvertisementService {
 
 	Boolean createAd(Advertisement advertisement);
 
-	Boolean updateAd(Advertisement advertisement);
+	Advertisement updateAd(Advertisement advertisement);
 
 	void deleteAd(Advertisement advertisement);
+
+	List<Advertisement> getUserFavorites(UUID userId);
+
+	List<Advertisement> getUserAds(UUID userId);
+
+	Advertisement getUserAdd(UUID adId, UUID userId);
+
+	Advertisement getAdById(UUID adId);
 }

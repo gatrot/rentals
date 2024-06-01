@@ -1,6 +1,9 @@
 package com.rentals.util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -11,7 +14,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.rentals.entity.Advertisement;
-import com.rentals.object.FilterDTO;
+import com.rentals.model.FilterDTO;
 
 public class FilterCriteriaForAdsUtil {
 
@@ -21,36 +24,52 @@ public class FilterCriteriaForAdsUtil {
 			private static final long serialVersionUID = 1L;
 
 			@Override
-			public Predicate toPredicate(Root<Advertisement> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+			public Predicate toPredicate(Root<Advertisement> root, CriteriaQuery<?> query,
+					CriteriaBuilder criteriaBuilder) {
 
 				List<Predicate> predicates = new ArrayList<>();
 
 				filterDTOList.forEach(filter -> {
-
+					String columnName = filter.getColumnName();
+					String columnValue = String.valueOf(filter.getColumnValue());
 					Predicate predicate;
+
 					switch (filter.getOperationType()) {
 					default:
 					case EQUALS:
-						Object objColumnValue ;
-						String strColumnValue = String.valueOf(filter.getColumnValue()) ;
-						if(strColumnValue.equalsIgnoreCase("true") || strColumnValue.equalsIgnoreCase("false")){
-							Boolean result = Boolean.parseBoolean(strColumnValue);
-							objColumnValue = result ;
-						}
+						if (RentalsUtil.isBoolean(columnValue)) {
+							Boolean result = Boolean.parseBoolean(columnValue);
+							predicate = criteriaBuilder.equal(root.get(columnName), result);
+						} 
+						
 						else {
-							objColumnValue = strColumnValue ;
+							predicate = criteriaBuilder.equal(root.get(columnName), columnValue);
 						}
-						predicate = criteriaBuilder.equal(root.get(filter.getColumnName()), objColumnValue );
+					
 						break;
 
 					case BIGGER:
-						predicate = criteriaBuilder.greaterThanOrEqualTo(root.get(filter.getColumnName()),
-								filter.getColumnValue().toString());
+						Date date = RentalsUtil.isDate(columnValue) ; 
+						if (date !=null) {
+							predicate = criteriaBuilder.greaterThanOrEqualTo(root.get(columnName), date);
+						}
+						
+						else {
+							predicate = criteriaBuilder.greaterThanOrEqualTo(root.get(columnName), columnValue);
+						}
+						
 						break;
 
 					case SMALLER:
-						predicate = criteriaBuilder.lessThanOrEqualTo(root.get(filter.getColumnName()),
-								filter.getColumnValue().toString());
+						date = RentalsUtil.isDate(columnValue) ; 
+						if (date !=null) {
+							predicate = criteriaBuilder.lessThanOrEqualTo(root.get(columnName), date);
+						}
+						
+						else {
+							predicate = criteriaBuilder.lessThanOrEqualTo(root.get(columnName), columnValue);
+						}
+						
 						break;
 					}
 
@@ -63,5 +82,21 @@ public class FilterCriteriaForAdsUtil {
 			}
 
 		};
+
+	}
+
+	public boolean isDate(String dateStr) {
+		DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm\"");
+		sdf.setLenient(false);
+		try {
+			sdf.parse(dateStr);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isBoolean(String strColumnValue) {
+		return strColumnValue.equalsIgnoreCase("true") || strColumnValue.equalsIgnoreCase("false");
 	}
 }

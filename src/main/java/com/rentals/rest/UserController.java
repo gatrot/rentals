@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.rentals.object.ResetPasswordRequest;
-import com.rentals.object.UserDetailsDTO;
-import com.rentals.object.WebResponse;
+import com.rentals.model.ResetPasswordRequest;
+import com.rentals.model.UserDetailsDTO;
+import com.rentals.model.WebResponse;
 import com.rentals.service.manager.RentalsManager;
 
 @RestController()
@@ -31,7 +31,7 @@ public class UserController {
 	}
 
 	@PostMapping("public/login")
-	public ResponseEntity<WebResponse> login(@RequestBody UserDetailsDTO userDetailsDTO) {
+	public ResponseEntity<WebResponse> login(@RequestBody(required = true) UserDetailsDTO userDetailsDTO) {
 		WebResponse response = authManager.login(userDetailsDTO);
 		return ResponseEntity.ok().body(response);
 
@@ -40,7 +40,7 @@ public class UserController {
 	// logout is provided automatically by spring security
 
 	@PostMapping("public/reset-password")
-	public ResponseEntity<WebResponse> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
+	public ResponseEntity<WebResponse> resetPassword(@RequestBody(required = true)  ResetPasswordRequest resetPasswordRequest) {
 		WebResponse response = authManager.resetPassword(resetPasswordRequest);
 		return ResponseEntity.ok().body(response);
 	}

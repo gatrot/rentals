@@ -1,6 +1,7 @@
 package com.rentals.service.imp;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -8,11 +9,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.rentals.entity.Advertisement;
-import com.rentals.entity.User;
-import com.rentals.object.FilterDTO;
+import com.rentals.model.FilterDTO;
 import com.rentals.repository.AdvertisementRepository;
 import com.rentals.service.AdvertisementService;
 import com.rentals.util.FilterCriteriaForAdsUtil;
@@ -53,22 +54,44 @@ public class AdvertisementServiceImp implements AdvertisementService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public Boolean updateAd(Advertisement advertisement) {
+	public Advertisement updateAd(Advertisement advertisement) {
 		Boolean res = false;
 		try {
 			advertisement = repo.save(advertisement);
-			res = true;
+			return advertisement ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return res;
+		return null ;
 	}
 	
 	@Override
 	@Transactional(readOnly = false)
 	public void deleteAd(Advertisement advertisement) {
 		repo.delete(advertisement);
+	}
+	
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+	public List<Advertisement> getUserFavorites(UUID userId) {
+		return repo.getUserFavorites(userId);
+	}
+	
+	@Override
+	@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+	public List<Advertisement> getUserAds(UUID userId) {
+		return repo.getAdsCreatedByUser(userId);
+	}
+
+	@Override
+	public Advertisement getUserAdd(UUID adId, UUID userId) {
+		return repo.getUserAdd(adId, userId);
+	}
+	
+	@Override
+	public Advertisement getAdById(UUID adId) {
+		return repo.getAdById(adId); 
 	}
 
 }

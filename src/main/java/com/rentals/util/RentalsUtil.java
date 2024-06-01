@@ -3,6 +3,9 @@ package com.rentals.util;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,9 +13,12 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
+import com.rentals.model.AddressDTO;
+
 public abstract class RentalsUtil {
 
 	public static final Logger logger = Logger.getLogger(RentalsUtil.class);
+	private static DateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
 	
 	public static boolean emailValidator(String email) {
 		if (email != "" && email != null) {
@@ -67,5 +73,24 @@ public abstract class RentalsUtil {
 			logger.error("Failed to get Email-Template resource from classpath." ,e);
 		}
 		return emailTemplate ;
+	}
+	
+	public static void trimStreetName(AddressDTO addressDto) {
+		addressDto.setStreetNameHebrew(addressDto.getStreetNameHebrew().trim());
+		addressDto.setStreetNameEnglish(addressDto.getStreetNameEnglish().trim());
+	}
+	
+	public static  Date isDate(String dateStr) {
+		sdf.setLenient(false);
+		try {
+			Date date = sdf.parse(dateStr);
+			return date  ;
+		} catch (Exception e) {
+		}
+		return null ;
+	}
+
+	public static boolean isBoolean(String strColumnValue) {
+		return strColumnValue.equalsIgnoreCase("true") || strColumnValue.equalsIgnoreCase("false");
 	}
 }

@@ -18,8 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import com.rentals.object.EmailType;
-import com.rentals.object.MailMessageRequest;
+import com.rentals.model.EmailType;
+import com.rentals.model.MailMessageRequest;
 import com.rentals.service.UserService;
 import com.rentals.util.RentalsUtil;
 

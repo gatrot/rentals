@@ -1,9 +1,10 @@
-package com.rentals.object;
+package com.rentals.model;
 
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AdvertisementDTO extends ResponseBodyBase {
@@ -15,9 +16,11 @@ public class AdvertisementDTO extends ResponseBodyBase {
 	private Integer floor;
 	private Integer space;
 	@JsonProperty("date_added")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
 	private Date dateAdded;
 	@JsonProperty("acc_type")
 	private AccommodationType accType;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
 	private Date availability;
 	@JsonProperty("user_name")
 	private String userName;
@@ -29,6 +32,7 @@ public class AdvertisementDTO extends ResponseBodyBase {
 	private Boolean balcony;
 	private Boolean furnished;
 	private Boolean pets;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm")
 	private Date renewal;
 
 	public AdvertisementDTO() {

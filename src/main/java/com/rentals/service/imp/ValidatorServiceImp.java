@@ -11,7 +11,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.rentals.entity.User;
-import com.rentals.object.UserDetailsDTO;
+import com.rentals.model.UserDetailsDTO;
 import com.rentals.service.UserService;
 import com.rentals.util.RentalsUtil;
 

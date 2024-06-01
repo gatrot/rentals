@@ -22,7 +22,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import com.rentals.object.AccommodationType;
+import com.rentals.model.AccommodationType;
 
 @Entity
 @Table(name = "ADS")

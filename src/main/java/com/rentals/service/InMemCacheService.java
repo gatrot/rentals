@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.rentals.object.AddressDTO;
+import com.rentals.model.AddressDTO;
 
 @Service
 public class InMemCacheService {

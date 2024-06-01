@@ -1,4 +1,4 @@
-package com.rentals.object;
+package com.rentals.model;
 
 import java.util.List;
 

@@ -30,7 +30,7 @@ public class User {
 	private Boolean emailConfirmed;
 	private String username;
 	private String password;
-	
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Advertisement> adsPublished;
 
@@ -88,8 +88,6 @@ public class User {
 		this.password = password;
 	}
 
-	// Ads
-
 	public List<Advertisement> getAdsPublished() {
 		return adsPublished;
 	}
@@ -98,11 +96,12 @@ public class User {
 		this.adsPublished = adsPublished;
 	}
 
-	public List<Advertisement> getAdsFavorited() {
+	public List<Advertisement> getFavorites() {
 		return favorites;
 	}
 
-	public void setAdsFavorited(List<Advertisement> adsFavorited) {
-		this.favorites = adsFavorited;
+	public void setFavorites(List<Advertisement> favorites) {
+		this.favorites = favorites;
 	}
+
 }
